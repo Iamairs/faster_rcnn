@@ -1,0 +1,24 @@
+# YOLOv10项目依赖
+# 基础依赖
+ultralytics
+torch
+torchvision
+numpy
+opencv-python
+Pillow
+PyYAML
+requests
+scipy
+tqdm
+matplotlib
+seaborn
+pandas
+pycocotools
+
+# 可选依赖
+tensorboard
+
+# 导出格式支持
+onnx
+onnxsim
+onnxruntime

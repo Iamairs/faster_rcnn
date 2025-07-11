@@ -1,0 +1,73 @@
+# Faster R-CNN训练配置文件
+
+# 模型配置
+model:
+  backbone: "resnet50"  # resnet50, resnet101, mobilenet
+  pretrained: true
+  num_classes: 2  # 包含背景类
+
+# SSDD:"/home/vipuser/amairs/projects/faster_rcnn/datasets/SSDD"
+# HRSID:"/home/vipuser/amairs/datasets/HRSID_JPG/coco"
+# DIOR:"/home/vipuser/amairs/datasets/DIOR/coco"
+dataset:
+  name: "HRSID"
+  root: "/home/vipuser/amairs/datasets/HRSID_JPG/coco"
+  format: "coco"  # coco, voc
+
+  # 类别信息
+  num_classes: 1  # 不包含背景类
+  class_names:
+    - "ship"
+
+# 训练配置
+training:
+  epochs: 50
+  batch_size: 16
+  num_workers: 4
+  device: "cuda:0"
+
+  # 优化器配置
+  optimizer:
+    type: "SGD"  # SGD, Adam, AdamW
+    lr: 0.002
+    momentum: 0.9
+    weight_decay: 0.0005
+
+  # 学习率调度器
+  scheduler:
+    type: "CosineAnnealingLR"  # MultiStepLR, CosineAnnealingLR
+    milestones: [50, 80]
+    gamma: 0.1
+
+  # 数据增强
+  augmentation:
+    horizontal_flip: 0.5 # 水平翻转
+    vertical_flip: 0.5   # 垂直翻转
+#    color_jitter:
+#      brightness: 0
+#      contrast: 0
+#      saturation: 0
+#      hue: 0
+#    random_resize:
+#      min_size: 640
+#      max_size: 1200
+
+# 验证配置
+validation:
+  eval_freq: 1  # 每1个epoch评估一次
+  conf_threshold: 0.5
+  nms_threshold: 0.5
+  eval_image_size: 800  # 验证时图像的尺寸
+
+# 保存配置
+saving:
+  save_dir: "runs/train"
+  save_freq: 10  # 每10个epoch保存一次
+  max_keep: 10   # 最多保留10个检查点
+
+# 日志配置
+logging:
+  print_freq: 1
+  log_dir: "logs"
+  tensorboard: true
+  wandb: false
