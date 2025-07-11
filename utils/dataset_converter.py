@@ -422,8 +422,8 @@ class DatasetConverter:
         VOC格式转YOLO格式
         """
         # 创建输出目录
-        images_output_dir = os.path.join(output_dir, 'images', 'train')
-        labels_output_dir = os.path.join(output_dir, 'labels', 'train')
+        images_output_dir = os.path.join(output_dir, split, 'images')
+        labels_output_dir = os.path.join(output_dir, split, 'labels')
 
         for dir_path in [images_output_dir, labels_output_dir]:
             os.makedirs(dir_path, exist_ok=True)
@@ -617,7 +617,7 @@ def main():
     converter = DatasetConverter()
 
     # 设置类别名称（根据你的数据集修改）
-    class_names = ['ship']
+    class_names = ["vehicle", "ship", "airplane"]
     converter.set_classes(class_names)
 
     # 示例：YOLO转COCO
@@ -635,11 +635,11 @@ def main():
     # )
 
     # 示例：COCO转YOLO
-    converter.coco_to_yolo(
-        coco_file='/home/vipuser/amairs/datasets/HRSID_JPG/annotations/test2017.json',
-        output_dir='/home/vipuser/amairs/datasets/HRSID_JPG/yolo',
-        split='val'
-    )
+    # converter.coco_to_yolo(
+    #     coco_file='/home/vipuser/amairs/datasets/HRSID_JPG/annotations/test2017.json',
+    #     output_dir='/home/vipuser/amairs/datasets/HRSID_JPG/yolo',
+    #     split='val'
+    # )
 
     # 示例：COCO转VOC
     # converter.coco_to_voc(
@@ -649,17 +649,17 @@ def main():
     # )
 
     # 示例：VOC转YOLO
-    # converter.voc_to_yolo(
-    #     voc_dir='path/to/voc/dataset',
-    #     output_dir='path/to/output/yolo',
-    #     split='trainval'
-    # )
+    converter.voc_to_yolo(
+        voc_dir=r'F:\Dataset\Detection\DIOR\vehicle_ship_airplane\voc',
+        output_dir=r'F:\Dataset\Detection\DIOR\vehicle_ship_airplane\yolo',
+        split='train'
+    )
 
     # 示例：VOC转COCO
     # converter.voc_to_coco(
-    #     voc_dir='path/to/voc/dataset',
-    #     output_file='path/to/output/coco/annotations.json',
-    #     split='trainval'
+    #     voc_dir=r'F:\Dataset\Detection\DIOR\vehicle_ship_airplane\voc',
+    #     output_file=r'F:\Dataset\Detection\DIOR\vehicle_ship_airplane\coco\val\annotations\val.json',
+    #     split='val'
     # )
 
     print("转换完成！")
